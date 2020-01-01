@@ -144,7 +144,10 @@ class Formula:
                 if not count:
                     return (start, end)
                 counter += 1
-
+            if self(end, start):
+                if not count:
+                    return (end, start)
+                counter += 1
             start += 1
             end -= 1
 

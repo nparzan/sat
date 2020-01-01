@@ -17,11 +17,18 @@ n = 10
 #     print(c)
 
 # print(F(2**9 + 2**4, 0))
+cl = Clause(4,0,3)
+print(cl(7,0))
+F = Formula([cl])
+print(F.brute_force())
 
-G = Formula.random(10, 5)
-ass = Formula.random_assignment(10)
-print(G(ass))
+G = Formula.random(22, 30)
+#ass = Formula.random_assignment(10)
+#print(G(ass))
+sol = G.brute_force()
+print(sol)
 
+exit()
 # print(G(ass[0], ass[1]))
 # print(Clause(ass[0], ass[1], 10))
 # print(bin(ass[0]), bin(ass[1]))
