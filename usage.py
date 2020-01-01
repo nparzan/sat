@@ -1,6 +1,7 @@
 from sat import *
 
 n = 10
+
 # for i in range(100):
 #     cl1 = Clause.random(n)
 #     print(cl1)
@@ -17,18 +18,22 @@ n = 10
 #     print(c)
 
 # print(F(2**9 + 2**4, 0))
-cl = Clause(4,0,3)
-print(cl(7,0))
+
+cl = Clause(4, 0, 3)
+print(cl(7, 0))
 F = Formula([cl])
 print(F.brute_force())
 
-G = Formula.random(22, 30)
-#ass = Formula.random_assignment(10)
-#print(G(ass))
-sol = G.brute_force()
-print(sol)
+G = Formula.random(15, 50)
 
+# ass = Formula.random_assignment(10)
+# print(G(ass))
+
+sol = G.brute_force(count=True)
+print(sol, sol / 2**15)
+print("Approx", G.approximate_count())
 exit()
+
 # print(G(ass[0], ass[1]))
 # print(Clause(ass[0], ass[1], 10))
 # print(bin(ass[0]), bin(ass[1]))

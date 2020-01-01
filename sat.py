@@ -132,6 +132,15 @@ class Formula:
                 return False
         return True
 
+    def approximate_count(self, k=1000):
+        # Try k random assignments, return approximate acceptance probability
+        counter = 0
+        for i in range(k):
+            ass = Formula.random_assignment(self.nof_vars)
+            if self(ass):
+                counter += 1
+        return counter / k
+
     def brute_force(self, count=False):
         # Find a solution using naive brute force search
         # If count=True, count all solutions
