@@ -20,6 +20,7 @@ n = 10
 
 G = Formula.random(10, 5)
 ass = Formula.random_assignment(10)
+print(G(ass))
 
 # print(G(ass[0], ass[1]))
 # print(Clause(ass[0], ass[1], 10))

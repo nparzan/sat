@@ -37,10 +37,18 @@ class Clause:
                 st += "-x" + str(i) + ", "
         return st[:-2]
 
-    def __call__(self, assignment_pos, assignment_neg):
+    def __call__(self, *arg):
         # Gets two numbers from [0,...,2^n - 1],
         # Interprets the "1" bits in the first as positive variables
         # And the "1" bits in the second as negative variables
+        if len(arg) == 2:
+            assignment_pos = arg[0]
+            assignment_neg = arg[1]
+
+        if len(arg) == 1:
+            assignment_pos = arg[0][0]
+            assignment_neg = arg[0][1]
+
         pos = assignment_pos & self.vars_pos
         neg = assignment_neg & self.vars_neg
         return bool(pos or neg)
@@ -115,12 +123,12 @@ class Formula:
             return res
         raise StopIteration
 
-    def __call__(self, assignment_pos, assignment_neg):
+    def __call__(self, *arg):
         # Evaluate a formula with a given assignment
         # If any clause is unsatisfied return False
         # Else, return True
         for clause in self:
-            if not clause(assignment_pos, assignment_neg):
+            if not clause(*arg):
                 return False
         return True
 
