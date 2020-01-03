@@ -25,18 +25,22 @@ print(taut)
 print(cl(7, 0))
 F = Formula([cl])
 print(F.brute_force())
-
+a,b,c = [random.randint(0,10) for i in range(3)]
 G = Formula.random(15, 150)
 #print(G)
-
+print("A:", Formula.random_hashed(100))
 # ass = Formula.random_assignment(10)
 # print(G(ass))
-
-sol = G.brute_force(count=True)
-max_cl = G.approximate_sat()
-print("Average sat ratio", max_cl)
+print("Base:", (math.ceil(math.log2(1023))))
+#sol = G.brute_force(count=True)
+#max_cl = G.approximate_sat(hashed=True)
+#print("Average sat ratio", max_cl)
 #print(sol / 2**15)
 #print("Approx", G.approximate_count())
+
+L = Formula.random(300, 10000)
+apx = L.approximate_sat(avg=False, hashed=False)
+print(apx)
 exit()
 
 # print(G(ass[0], ass[1]))

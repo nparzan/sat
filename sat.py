@@ -1,5 +1,5 @@
 import random
-
+import math
 
 class Clause:
 
@@ -103,6 +103,24 @@ class Formula:
         neg = (1 << n) - 1 - pos
         return (pos, neg)
 
+    @staticmethod
+    def random_hashed(n):
+        # Draw random log(n) bit boolean test had
+        # And set i-th bit of random assignment to be
+        # The inner product <had, i> over F2
+        had = random.randint(0, n)
+
+        def ip(a, b):
+            return bin(a & b).count('1') % 2
+
+        pos = neg = 0
+        for i in range(n):
+            if ip(i, had):
+                pos += (1 << i)
+            else:
+                neg += (1 << i)
+        return (pos, neg)
+
     def __repr__(self):
         st = ""
         for cl in self:
@@ -138,14 +156,17 @@ class Formula:
                 return False
         return True
 
-    def approximate_sat(self, k=1000, avg=True):
+    def approximate_sat(self, k=1000, avg=True, hashed=False):
         # If avg, compute avg nof satisfied clauses by random assignment
         # Otherwise, compute maximum nof satisfied clauses
         max_cl = 0
         total = 0
         for i in range(k):
             sat = 0
-            ass = Formula.random_assignment(self.nof_vars)
+            if hashed:
+                ass = Formula.random_hashed(self.nof_vars)
+            else:
+                ass = Formula.random_assignment(self.nof_vars)
             for cl in self:
                 if cl(ass):
                     sat += 1
@@ -157,11 +178,14 @@ class Formula:
             return total / (k * len(self))
         return max_cl / len(self)
 
-    def approximate_count(self, k=1000):
+    def approximate_count(self, k=1000, hashed=False):
         # Try k random assignments, return approximate acceptance probability
         counter = 0
         for i in range(k):
-            ass = Formula.random_assignment(self.nof_vars)
+            if hashed:
+                ass = Formula.random_hashed(self.nof_vars)
+            else:
+                ass = Formula.random_assignment(self.nof_vars)
             if self(ass):
                 counter += 1
         return counter / k
