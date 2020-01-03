@@ -29,7 +29,7 @@ So we would initialize the clause as follows:
 cl = Clause(18, 1, 5)
 ```
 
-### Clause
+### Formula
 
 A formula is simply the conjunction of one or more clause. Given a sequence `clauses = {cl_1, ..., cl_k}` of clauses, we initialize the formula `cl_1 ^ cl_2 ^ ... ^ cl_k` as follows:
 
@@ -61,12 +61,20 @@ F(assignment) # Evaluate formula over assignment
 cl = Clause.random(n) # Random 3-variable clause over n variables
 F = Formula.random(n, k) # Random 3CNF formula with k clauses over n variables
 ass = Formula.random_assignment(n) # Random assignment of n variables
+ass_hash = Formula.random_hashed(n) # Random 2-wise indpendent assignment
 ```
 
 ### Brute force solutions:
 ```python
 sol = F.brute_force() # Return solution for a formula F usign brute force search in (pos_mask, neg_mask) format
 count = F.brute_force(count=True) # Count number of solutions to a formula F
+```
+
+### Approximations:
+```python
+apx_cnt = F.approximate_count() # Count probability of acceptance for random assignment
+apx_sat = F.approximate_sat() # Count avg. number of accepted clause in random assignment
+max_sat = F.approximate_sat(avg=False) # Count max number of accepted clause in random assignment
 ```
 
 ## License
