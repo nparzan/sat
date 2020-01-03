@@ -20,18 +20,23 @@ n = 10
 # print(F(2**9 + 2**4, 0))
 
 cl = Clause(4, 0, 3)
+taut = Clause(1,1,10)
+print(taut)
 print(cl(7, 0))
 F = Formula([cl])
 print(F.brute_force())
 
-G = Formula.random(15, 75)
+G = Formula.random(15, 150)
+#print(G)
 
 # ass = Formula.random_assignment(10)
 # print(G(ass))
 
 sol = G.brute_force(count=True)
-print(sol / 2**15)
-print("Approx", G.approximate_count())
+max_cl = G.approximate_sat()
+print("Average sat ratio", max_cl)
+#print(sol / 2**15)
+#print("Approx", G.approximate_count())
 exit()
 
 # print(G(ass[0], ass[1]))

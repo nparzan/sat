@@ -19,6 +19,12 @@ class Clause:
     def __len__(self):
         return self.len
 
+    def __eq__(self, other):
+        pos = self.vars_pos == other.vars_pos
+        neg = self.vars_neg == other.vars_neg
+        n = self.len == other.len
+        return pos and neg and n
+
     def __neg__(self):
         # Given a clause, returns the "opposite clause",
         # I.e., map x_i to !(x_i)
@@ -26,7 +32,7 @@ class Clause:
 
     def __repr__(self):
         if self.tautology:
-            return "1"
+            return "True"
         s_pos = bin(self.vars_pos)[2:]
         s_neg = bin(self.vars_neg)[2:]
         st = ""
@@ -131,6 +137,25 @@ class Formula:
             if not clause(*arg):
                 return False
         return True
+
+    def approximate_sat(self, k=1000, avg=True):
+        # If avg, compute avg nof satisfied clauses by random assignment
+        # Otherwise, compute maximum nof satisfied clauses
+        max_cl = 0
+        total = 0
+        for i in range(k):
+            sat = 0
+            ass = Formula.random_assignment(self.nof_vars)
+            for cl in self:
+                if cl(ass):
+                    sat += 1
+            if avg:
+                total += sat
+            if sat > max_cl:
+                max_cl = sat
+        if avg:
+            return total / (k * len(self))
+        return max_cl / len(self)
 
     def approximate_count(self, k=1000):
         # Try k random assignments, return approximate acceptance probability
