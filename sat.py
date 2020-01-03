@@ -80,6 +80,7 @@ class Formula:
 
     def __init__(self, clauses):
         # Gets a sequence of clauses and defines them as the formula
+        assert len(set(len(clause) for clause in clauses)) <= 1
         self.clauses = [clause for clause in clauses]
         self.nof_vars = 0
 
