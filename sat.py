@@ -13,7 +13,7 @@ class Clause:
         self.tautology = False
         # Tautology
         if mask_pos & mask_neg:
-            mask_pos = mask_neg = pow(2, n) - 1
+            mask_pos = mask_neg = (1 << n) - 1
             self.tautology = True
 
     def __len__(self):
@@ -63,9 +63,9 @@ class Clause:
         mask_neg = 0
         for bit in bits:
             if random.randint(0, 1) == 1:
-                mask_pos += pow(2, bit)
+                mask_pos += (1 << bit)
             else:
-                mask_neg += pow(2, bit)
+                mask_neg += (1 << bit)
         cl = Clause(mask_pos, mask_neg, n)
         return cl
 
@@ -93,8 +93,8 @@ class Formula:
         # Draw a random assignment over n variables
         # We draw a random positive assignment and
         # The negative assignment is the complement
-        pos = random.randint(0, 2**n - 1)
-        neg = 2**n - 1 - pos
+        pos = random.randint(0, (1 << n) - 1)
+        neg = (1 << n) - 1 - pos
         return (pos, neg)
 
     def __repr__(self):
@@ -146,7 +146,7 @@ class Formula:
         # If count=True, count all solutions
         counter = 0
         start = 0
-        end = 2**(self.nof_vars) - 1
+        end = (1 << self.nof_vars) - 1
 
         while start <= end:
             if self(start, end):

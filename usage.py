@@ -24,13 +24,13 @@ print(cl(7, 0))
 F = Formula([cl])
 print(F.brute_force())
 
-G = Formula.random(15, 50)
+G = Formula.random(15, 75)
 
 # ass = Formula.random_assignment(10)
 # print(G(ass))
 
 sol = G.brute_force(count=True)
-print(sol, sol / 2**15)
+print(sol / 2**15)
 print("Approx", G.approximate_count())
 exit()
 
