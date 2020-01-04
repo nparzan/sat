@@ -1,6 +1,7 @@
 import random
 import math
 
+
 class Clause:
 
     def __init__(self, mask_pos, mask_neg, n):
@@ -60,11 +61,9 @@ class Clause:
         return bool(pos or neg)
 
     @staticmethod
-    def random(n):
-        # Draw a random 3-variable clause over n variables
-        bits = set()
-        while len(bits) != 3:
-            bits = set(random.randint(0, n - 1) for i in range(3))
+    def random(n, k=3):
+        # Draw a random k-variable clause over n variables
+        bits = random.sample(range(n), k)
         mask_pos = 0
         mask_neg = 0
         for bit in bits:
@@ -88,11 +87,11 @@ class Formula:
             self.nof_vars = len(self.clauses[0])
 
     @staticmethod
-    def random(n, k):
-        # Draw a random 3CNF formula over n variables with k clauses
+    def random(n, k, t=3):
+        # Draw a random t-CNF formula over n variables with k clauses
         cl = []
         for i in range(k):
-            cl += [Clause.random(n)]
+            cl += [Clause.random(n, t)]
         return Formula(cl)
 
     @staticmethod

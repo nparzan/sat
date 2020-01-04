@@ -2,6 +2,9 @@ from sat import *
 
 n = 10
 
+x = Formula.random_hashed(200)
+print("Random ass. positive weight:", bin(x[0]).count("1"))
+print(x)
 # for i in range(100):
 #     cl1 = Clause.random(n)
 #     print(cl1)
